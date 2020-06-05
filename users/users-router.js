@@ -6,9 +6,10 @@ const checkDepartment = require('../auth/check-department-middleware')
 
 const router = express.Router()
 
-router.get('/', restricted, checkDepartment('developer'), async (req, res) => {
+router.get('/', restricted, async (req, res) => {
     try {
-        const users = await Users.get()
+        const department = req.decodedJWT.department
+        const users = await Users.get(department)
         if (users) { return res.status(200).json(users) }
         res.status(404).json({ message: 'get error' })
     } catch(e) {

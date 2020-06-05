@@ -4,6 +4,6 @@ module.exports = {
     get
 }
 
-function get() {
-    return db('users').select('users.username')
+function get(department) {
+    return db('users').where({department}).select('users.username', 'users.department')
 }

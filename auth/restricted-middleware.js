@@ -8,6 +8,7 @@ module.exports = (req, res, next) => {
     if (!directive || directive != 'Bearer') {
         res.status(401).json({ message: 'no bear!' })
     }
+    console.log(token)
     if (token) {
         jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
             if (err) {
