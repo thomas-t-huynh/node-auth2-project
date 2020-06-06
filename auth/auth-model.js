@@ -7,7 +7,7 @@ module.exports = {
 
 function add(user) {
     return db('users').insert(user)
-        .then(() => { return {username: user.username, department: user.department } })
+        .then(() => user )
 }
 
 function findBy(username) {

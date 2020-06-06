@@ -13,7 +13,8 @@ router.post('/register', async (req, res) => {
     body.password = hash
     try {
       const user = await Auth.add(body)
-      res.status(201).json(user)  
+      const token = generateToken(user)
+      res.status(201).json({ message: 'Register complete ' + user.username, token })  
     } catch(e) {
         res.status(500).json({ message: 'db error' })
     }
@@ -23,6 +24,7 @@ router.post('/login', async (req, res) => {
     let { username, password } = req.body
     try {
         const user = await Auth.findBy(username).first()
+        console.log(user)
         if (user && bcrypt.compareSync(password, user.password)) {
             const token = generateToken(user)
             res.status(200).json({message: 'welcome to the jungle, ' + username, token })
