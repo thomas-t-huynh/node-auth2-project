@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 const initData = { 
   username: "thom27",
@@ -7,7 +8,7 @@ const initData = {
   repassword: "secretword123",
   department: "engineering"
 }
-function Register () {
+function Register ({ history }) {
   const [credentials, setCredentials] = useState(initData)
   const [status, setStatus] = useState()
 
@@ -23,6 +24,8 @@ function Register () {
       .then(res => {
         setStatus(undefined)
         setCredentials(initData)
+        window.localStorage.setItem("testToken", res.data.token)
+        history.push('/users')
         console.log(res)
       })
       .catch(err => {
@@ -53,7 +56,7 @@ function Register () {
           <input type="password" value={credentials.repassword} onChange={e => handleOnChange(e)} name="repassword"/>
           <button>Submit</button>
         </form>
-        <button>Already registered? Login here</button>
+        <Link to="/login">Already registered? Login here</Link>
       </div>
 
     );

@@ -3,12 +3,12 @@ const secrets = require('../config/secrets')
 
 module.exports = (req, res, next) => {
     // token must be included in the header as Authorization
-    const [directive, token] = req.headers.authorization.split(" ")
-
-    if (!directive || directive != 'Bearer') {
-        res.status(401).json({ message: 'no bear!' })
-    }
-    console.log(token)
+    console.log(req.headers.authorization)
+    const token = req.headers.authorization
+    // const [directive, token] = req.headers.authorization.split(" ")
+    // if (!directive || directive != 'Bearer') {
+    //     res.status(401).json({ message: 'no bear!' })
+    // }
     if (token) {
         jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
             if (err) {

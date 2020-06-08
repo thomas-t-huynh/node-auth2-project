@@ -6,7 +6,7 @@ const initData = {
   password: "secretword123",
 }
 
-function Login () {
+function Login ({ history }) {
     const [credentials, setCredentials] = useState(initData)
     const [status, setStatus] = useState()
 
@@ -17,9 +17,11 @@ function Login () {
         const { username, password } = credentials
         axios.post('http://localhost:5000/api/auth/login', { username, password })
         .then(res => {
-            console.log(res)
             setStatus(undefined)
             setCredentials(initData)
+            window.localStorage.setItem("testToken", res.data.token)
+            history.push('/users')
+            console.log(res)
         })
         .catch(err => {
             console.log(err)

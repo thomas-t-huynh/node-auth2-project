@@ -6,18 +6,27 @@ function Users() {
   const [status, setStatus] = useState()
 
   useEffect(() => {
+    const token = window.localStorage.getItem("testToken")
+    if (token) {
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      }      
       axios
-        .get("http://localhost:5000/api/users/")
-        .then((res) => {
-          setUsers(res.data);
-          setStatus(undefined);
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-          setStatus("Error handling request");
-        });
-    }, []);
+      .get("http://localhost:5000/api/users/", {
+        headers
+      })
+      .then((res) => {
+        setUsers(res.data);
+        setStatus(undefined);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        setStatus("Error handling request");
+      });
+    }
+  }, []);
 
   const handleLogOut = () => {
     axios
